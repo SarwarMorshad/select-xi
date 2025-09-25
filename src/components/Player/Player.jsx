@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import iconImg from "../../assets/icon.png";
 import flagImg from "../../assets/flag.png";
 
-const Player = ({ player }) => {
+const Player = ({ player, availableBalance, setAvailableBalance }) => {
+  const [isSelected, setIsSelected] = useState(false);
+  const handleSelectPlayer = (player) => {
+    if (availableBalance < player.price) {
+      alert("Insufficient balance to select this player.");
+      return;
+    }
+    setIsSelected(true);
+    setAvailableBalance(availableBalance - player.price);
+  };
   return (
     <div>
       <div className="card  shadow-xl rounded-2xl border-2 border-gray-200">
@@ -38,7 +47,13 @@ const Player = ({ player }) => {
             <span>
               Price: $ <span>{player.price}</span>
             </span>
-            <button className="btn  btn-outline">Choose Player</button>
+            <button
+              disabled={isSelected}
+              onClick={() => handleSelectPlayer(player)}
+              className="btn  btn-outline"
+            >
+              {isSelected ? "Selected" : "Choose Player"}
+            </button>
           </div>
         </div>
       </div>
