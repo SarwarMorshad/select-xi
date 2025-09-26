@@ -1,14 +1,30 @@
 import React, { useState } from "react";
 import iconImg from "../../assets/icon.png";
 import flagImg from "../../assets/flag.png";
+import { toast } from "react-toastify";
 
 const Player = ({ player, availableBalance, setAvailableBalance, selectedPlayers, setSelectedPlayers }) => {
   const [isSelected, setIsSelected] = useState(false);
   const handleSelectPlayer = (player) => {
     if (availableBalance < player.price) {
-      alert("Insufficient balance to select this player.");
+      toast("Insufficient balance to select this player.");
       return;
     }
+
+    if (selectedPlayers.length === 6) {
+      toast.error("You Already Selected 6 Players", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
     setIsSelected(true);
     setAvailableBalance(availableBalance - player.price);
     setSelectedPlayers([...selectedPlayers, player]);
