@@ -1,7 +1,13 @@
 import React, { use } from "react";
 import Player from "../Player/Player";
 
-const AvailablePlayers = ({ playersPromise, availableBalance, setAvailableBalance }) => {
+const AvailablePlayers = ({
+  playersPromise,
+  availableBalance,
+  setAvailableBalance,
+  selectedPlayers,
+  setSelectedPlayers,
+}) => {
   const players = use(playersPromise);
   return (
     <div className="mx-auto max-w-11/12 my-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -11,6 +17,8 @@ const AvailablePlayers = ({ playersPromise, availableBalance, setAvailableBalanc
           player={player}
           availableBalance={availableBalance}
           setAvailableBalance={setAvailableBalance}
+          selectedPlayers={selectedPlayers}
+          setSelectedPlayers={setSelectedPlayers}
         ></Player>
       ))}
     </div>

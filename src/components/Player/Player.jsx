@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import iconImg from "../../assets/icon.png";
 import flagImg from "../../assets/flag.png";
 
-const Player = ({ player, availableBalance, setAvailableBalance }) => {
+const Player = ({ player, availableBalance, setAvailableBalance, selectedPlayers, setSelectedPlayers }) => {
   const [isSelected, setIsSelected] = useState(false);
   const handleSelectPlayer = (player) => {
     if (availableBalance < player.price) {
@@ -11,6 +11,7 @@ const Player = ({ player, availableBalance, setAvailableBalance }) => {
     }
     setIsSelected(true);
     setAvailableBalance(availableBalance - player.price);
+    setSelectedPlayers([...selectedPlayers, player]);
   };
   return (
     <div>

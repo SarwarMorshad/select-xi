@@ -13,6 +13,13 @@ const playersPromise = fetchPlayers();
 function App() {
   const [toggle, setToggle] = useState(true);
   const [availableBalance, setAvailableBalance] = useState(10000000);
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
+  // console.log(selectedPlayers);
+  const removePlayer = (p) => {
+    const updatedPlayers = selectedPlayers.filter((player) => player.id !== p.id);
+    setSelectedPlayers(updatedPlayers);
+    setAvailableBalance(availableBalance + p.price);
+  };
 
   return (
     <>
@@ -20,7 +27,9 @@ function App() {
         <Navbar availableBalance={availableBalance}></Navbar>
       </div>
       <div className="max-w-11/12 mx-auto flex justify-between items-center">
-        <h1 className="font-bold text-2xl">Available Players</h1>
+        <h1 className="font-bold text-2xl">
+          {toggle === true ? "Available Players" : `Selected Players (${selectedPlayers.length})`}
+        </h1>
 
         <div className="font-bold">
           <button
@@ -37,7 +46,7 @@ function App() {
               toggle === false ? "bg-[#E7FE29]" : ""
             }`}
           >
-            selected <span>0</span>
+            selected <span>({selectedPlayers.length})</span>
           </button>
         </div>
       </div>
@@ -52,10 +61,12 @@ function App() {
             playersPromise={playersPromise}
             availableBalance={availableBalance}
             setAvailableBalance={setAvailableBalance}
+            selectedPlayers={selectedPlayers}
+            setSelectedPlayers={setSelectedPlayers}
           ></AvailablePlayers>
         </Suspense>
       ) : (
-        <SelectedPlayers></SelectedPlayers>
+        <SelectedPlayers selectedPlayers={selectedPlayers} removePlayer={removePlayer}></SelectedPlayers>
       )}
     </>
   );
